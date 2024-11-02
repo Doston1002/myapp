@@ -1,9 +1,16 @@
-import React from 'react'
+import { useSelector} from 'react-redux';
+import Counter from './container/Counter';
 
 const App = () => {
-  return (
-    <div>App</div>
-  )
-}
+  const state = useSelector((state) => state.count); // Accessing `count` state
 
-export default App
+  return (
+    <div className='container'>
+      <h1>Counter: {state}</h1>
+    
+      <Counter />
+    </div>
+  );
+};
+
+export default App;
