@@ -1,12 +1,19 @@
 import React, { useState } from 'react'
-
+import { useSelector, useDispatch } from 'react-redux'
 
 import { icon } from '../constants'
 import {Input} from '../ui/'
+import { loginUserStart } from '../slice/auth'
 const Login = () => {
-    const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const dispatch = useDispatch()
+    const {isLoading} = useSelector(state => state.auth)
+
+    const loginHandler = e=>{
+        e.preventDefault()
+        dispatch(loginUserStart())
+    }
 
   return (
     <main class="form-signin w-25 text-center m-auto mt-5">
@@ -22,8 +29,7 @@ const Login = () => {
         <input type="checkbox" value="remember-me"/> Remember me
       </label>
     </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">© 2017–2022</p>
+    <button class="w-100 btn btn-lg btn-primary" type="submit" disabled={isLoading} onClick={loginHandler}>{isLoading ? "Loading..." : "Login"}</button>
   </form>
 </main>
   )
