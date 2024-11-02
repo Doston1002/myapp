@@ -1,13 +1,13 @@
-import { useSelector } from 'react-redux';
-import Counter from './container/Counter';
-
+import { Route, Routes } from 'react-router-dom';
+import { Main, Login, Register } from './components';
 const App = () => {
-  const count = useSelector((state) => state.count.count); // Corrected state access
-
   return (
-    <div className='container'>
-      <h1>Counter: {count}</h1>
-      <Counter />
+    <div>
+      <Routes>
+        <Route  path='/' element={<Main/>}/>
+        <Route  path='/login' element={<Login/>}/>
+        <Route  path='/register' element={<Register/>}/>
+      </Routes>
     </div>
   );
 };
