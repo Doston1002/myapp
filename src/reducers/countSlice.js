@@ -10,11 +10,11 @@ export const countSlice = createSlice({
     minusCounter: (state) => {
       state.count -= 1;
     },
-    resertCounter: (state) => {
+    resetCounter: (state) => { // Corrected spelling here
       state.count = 0;
     },
   },
 });
 
-export const { plusCounter, minusCounter, resertCounter } = countSlice.actions;
+export const { plusCounter, minusCounter, resetCounter } = countSlice.actions; // Update export here
 export default countSlice.reducer;
