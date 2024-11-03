@@ -1,38 +1,45 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import {useState} from 'react'
+import {icon} from '../constants'
+import {Input} from '../ui'
+import {useSelector, useDispatch} from 'react-redux'
+import {signUserFailure, signUserStart, signUserSuccess} from '../slice/auth'
+import AuthService from '../service/auth'
 
-import { icon } from '../constants'
-import {Input} from '../ui/'
-import { loginUserStart } from '../slice/auth'
 const Login = () => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const dispatch = useDispatch()
-    const {isLoading} = useSelector(state => state.auth)
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
+	const dispatch = useDispatch()
+	const {isLoading} = useSelector(state => state.auth)
 
-    const loginHandler = e=>{
-        e.preventDefault()
-        dispatch(loginUserStart())
-    }
+	const loginHandler = async e => {
+		e.preventDefault()
+		dispatch(signUserStart())
+		const user = {email, password}
+		try {
+			const response = await AuthService.userLogin(user)
+			dispatch(signUserSuccess(response.user))
+		} catch (error) {
+			dispatch(signUserFailure(error.response.data.errors))
+		}
+	}
 
-  return (
-    <main class="form-signin w-25 text-center m-auto mt-5">
-  <form>
-    <img class="mb-2" src={icon} alt="" width="72" height="60"/>
-    <h1 class="h3 mb-3 fw-normal">Please login</h1>
+	return (
+		<div className='text-center mt-5'>
+			<main className='form-signin w-25 m-auto'>
+				<form>
+					<img className='mb-2' src={icon} alt='' width='72' height='60' />
+					<h1 className='h3 mb-3 fw-normal'>Please login</h1>
 
-    <Input label={'Email address'} type={'email'} state={email} setState={setEmail}/>
-    <Input label={'Password'} type={'password'} state={password} setState={setPassword}/>
+					<Input label={'Email address'} state={email} setState={setEmail} />
+					<Input label={'Password'} type={'password'} state={password} setState={setPassword} />
 
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"/> Remember me
-      </label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit" disabled={isLoading} onClick={loginHandler}>{isLoading ? "Loading..." : "Login"}</button>
-  </form>
-</main>
-  )
+					<button className='w-100 btn btn-lg btn-primary mt-2' disabled={isLoading} onClick={loginHandler} type='submit'>
+						{isLoading ? 'loading...' : 'Login'}
+					</button>
+				</form>
+			</main>
+		</div>
+	)
 }
 
 export default Login
