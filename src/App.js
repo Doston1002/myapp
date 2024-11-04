@@ -1,12 +1,13 @@
+
 import {useEffect} from 'react'
 import {useDispatch} from 'react-redux'
 import {Routes, Route} from 'react-router-dom'
-import {Main, Login, Register, Navbar} from './components'
+import {Main, Login, Register, Navbar, ArticleDetail} from './components'
 import {getItem} from './helpers/persistance-storage'
 import AuthService from './service/auth'
 import {signUserSuccess} from './slice/auth'
 import ArticleService from './service/article'
-import { getArticlesStart, getArticleSuccess } from './slice/article'
+import {getArticlesStart, getArticleSuccess} from './slice/article'
 
 const App = () => {
 	const dispatch = useDispatch()
@@ -20,34 +21,35 @@ const App = () => {
 		}
 	}
 
-  const getArticles = async ()=>{
-    dispatch(getArticlesStart())
-    try {
-      const response = await ArticleService.getArticles()
-
-      dispatch(getArticleSuccess(response.articles))
-    } catch (error) { 
-      console.log(error);
-      
-    }
-  }
+	const getArticles = async () => {
+		dispatch(getArticlesStart())
+		try {
+			const response = await ArticleService.getArticles()
+			dispatch(getArticleSuccess(response.articles))
+		} catch (error) {
+			console.log(error)
+		}
+	}
 
 	useEffect(() => {
 		const token = getItem('token')
 		if (token) {
 			getUser()
 		}
-    getArticles()
+		getArticles()
 	}, [])
 
 	return (
 		<div>
 			<Navbar />
-			<Routes>
-				<Route path='/' element={<Main />} />
-				<Route path='/login' element={<Login />} />
-				<Route path='/register' element={<Register />} />
-			</Routes>
+			<div className='container'>
+				<Routes>
+					<Route path='/' element={<Main />} />
+					<Route path='/login' element={<Login />} />
+					<Route path='/register' element={<Register />} />
+					<Route path='/article/:slug' element={<ArticleDetail />} />
+				</Routes>
+			</div>
 		</div>
 	)
 }
