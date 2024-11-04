@@ -1,10 +1,17 @@
-const Input = ({label, state, type='text', setState}) => {
-  return (
-    <div classname="form-floating">
-      <input type={type} class="form-control" onChange={e=>setState(e.target.value)} value={state} placeholder={label}/>
-      <label for="floatingInput">{label}</label>
-    </div>
-  )
+const Input = ({label, state, setState, type = 'text'}) => {
+	return (
+		<div className='form-floating'>
+			<input
+				type={type}
+				className='form-control'
+				value={state}
+				onChange={e => setState(e.target.value)}
+				id='floatingInput'
+				placeholder={label}
+			/>
+			<label htmlFor='floatingInput'>{label}</label>
+		</div>
+	)
 }
 
 export default Input
