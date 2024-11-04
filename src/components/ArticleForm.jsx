@@ -1,6 +1,5 @@
 import {useSelector} from 'react-redux'
-import { Input, TextAria } from '../ui';
-
+import {Input, TextAria} from '../ui'
 
 const ArticleForm = props => {
 	const {isLoading} = useSelector(state => state.article)
